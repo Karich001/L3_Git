@@ -1,0 +1,112 @@
+fetch("https://jsonplaceholder.typicode.com/posts")
+    .then(response => response.json())
+    .then(posts =>{
+        const sortedPosts = posts.sort((a,b) => b.title.length - a.title.length);
+        console.log(sortedPosts);
+    })
+////////////////////////////////////
+fetch("https://jsonplaceholder.typicode.com/comments")
+    .then(response => response.json())
+    .then(comments =>{
+        let sortComments = comments.sort((a,b) =>  a.name.length - b.name.length);
+        console.log(sortComments);
+    })
+////////////////////////////////
+const userses = new Promise((resolve,reject) =>{
+fetch("https://jsonplaceholder.typicode.com/users")
+    .then(response => response.json())
+    .then(users =>
+    {
+        let newUsers = users.map(user => ({
+            id: user.id,
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            phone: user.phone
+        }));
+        console.log(newUsers);
+        resolve(newUsers);
+    }
+    )
+    .catch(error =>{
+        reject(error);
+    });
+});
+/////////////////////////////
+const todoses = new Promise((resolve,reject) => {
+fetch("https://jsonplaceholder.typicode.com/todos")
+    .then(response => response.json())
+    .then(todos => {
+        let newTodos = todos.filter(todo => todo.completed === false);
+        console.log(newTodos);
+        resolve(newTodos);
+    })
+    .catch(error => {
+        reject(error);
+    });
+});
+/////////////////////////////
+async function SortPosts() {
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/posts");
+        const posts = await response.json();
+        
+        const sortedPosts = posts.sort((a, b) => b.title.length - a.title.length);
+        console.log(sortedPosts);
+        
+        return sortedPosts;
+    } catch (error) {
+        console.error("Ошибка при получении постов:", error);
+    }
+}
+//////////////////////////
+async function SortComments() {
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/comments");
+        const comments = await response.json();
+        
+        const sortedComments = comments.sort((a, b) => a.name.length - b.name.length);
+        console.log(sortedComments);
+        
+        return sortedComments;
+    } catch (error) {
+        console.error("Ошибка при получении комментариев:", error);
+    }
+}
+//////////////////////
+async function Users() {
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/users");
+        const users = await response.json();
+        
+        const newUsers = users.map(user => ({
+            id: user.id,
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            phone: user.phone
+        }));
+        
+        console.log(newUsers);
+        return newUsers;
+    } catch (error) {
+        console.error("Ошибка при получении пользователей:", error);
+        throw error;
+    }
+}
+///////////////////////
+async function IncompleteTodos() {
+    try {
+        const response = await fetch("https://jsonplaceholder.typicode.com/todos");
+        const todos = await response.json();
+        
+        const incompleteTodos = todos.filter(todo => todo.completed === false);
+        console.log(incompleteTodos);
+        
+        return incompleteTodos;
+    } catch (error) {
+        console.error("Ошибка при получении задач:", error);
+        throw error;
+    }
+}
+////////////////////////
